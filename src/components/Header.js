@@ -1,4 +1,5 @@
 import logo from "../images/header-logo.svg";
+import { Link } from 'react-router-dom';
 
 export function Header(props) {
   return (
@@ -6,7 +7,7 @@ export function Header(props) {
       <img className="header__logo" src={logo} alt="Логотип Mesto" />
       <div className="header__container">
         {props.isLoggedIn && (<p className="header__container_email header__container_email-block ">{props.userEmail}</p>)}
-        <a className="header__container_link header__container_link-out" href={props.linkPath} onClick={props.onClick}>{props.linkText}</a>
+        <Link className="header__container_link header__container_link-out" to={props.linkPath} onClick={props.onClick}>{props.linkText}</Link>
       </div>
       
     </header>

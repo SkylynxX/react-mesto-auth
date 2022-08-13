@@ -37,19 +37,21 @@ function App() {
   useEffect(() => {
     //валидируем токен через API авторизации
     const userToken = localStorage.getItem("jwt");
-    auth
-      .validateToken(userToken)
-      .then((userData) => {
-        if (userData) {
-          setUserEmail(userData.email);
-          setLoggedIn(true);
-          history.push("/");
-        }
-      })
-      .catch((err) => {
-        //попадаем сюда если один из промисов завершится ошибкой
-        console.log(err);
-      });
+    if (userToken) {
+      auth
+        .validateToken(userToken)
+        .then((userData) => {
+          if (userData) {
+            setUserEmail(userData.email);
+            setLoggedIn(true);
+            history.push("/");
+          }
+        })
+        .catch((err) => {
+          //попадаем сюда если один из промисов завершится ошибкой
+          console.log(err);
+        });
+    }
   }, [history]);
 
   useEffect(() => {
@@ -94,7 +96,7 @@ function App() {
   }
 
   function handleSignIn(userData) {
-     console.log(userData);
+    console.log(userData);
     auth
       .signIn(userData)
       .then((userReceivedData) => {
@@ -117,7 +119,6 @@ function App() {
     localStorage.removeItem("jwt");
     setLoggedIn(false);
     setUserEmail("");
-    history.push("/");
   }
 
   function handleCardLike(card) {
@@ -208,22 +209,24 @@ function App() {
           <Route path="/signin">
             <Header
               isLoggedIn={isLoggedIn}
-              userEmail={userEmail || ""}
+              userEmail={userEmail}
               linkPath={"/signup"}
-              linkText="Регистрация"/>
+              linkText="Регистрация"
+            />
             <Login onSignIn={handleSignIn} />
           </Route>
           <Route path="/signup">
-            <Header 
+            <Header
               isLoggedIn={isLoggedIn}
               linkPath={"/signin"}
-              linkText="Войти"/>
-              <Register onSignUp={handleSignUp} />
+              linkText="Войти"
+            />
+            <Register onSignUp={handleSignUp} />
           </Route>
           <Route path="/">
             <Header
               isLoggedIn={isLoggedIn}
-              userEmail={userEmail || ""}
+              userEmail={userEmail}
               onClick={handleSignOut}
               linkPath={"/"}
               linkText="Выйти"

@@ -23,7 +23,7 @@ export class Auth {
       }),
     }).then(this._returnStatus);
   }
-  
+
   // Залогинить пользователя с указанным паролем и емайлом, успешный ответ _id email
   signIn(userData) {
     return fetch(`${this._baseUrl}/signin`, {
@@ -38,13 +38,15 @@ export class Auth {
 
   // Проверить валидность токена и получить email
   validateToken(jwt) {
-    return fetch(`${this._baseUrl}/user/me`, {
+    if(jwt){
+    return fetch(`${this._baseUrl}/users/me`, {
       method: "GET",
       headers: {
         "Content-Type": this._headers["Content-Type"],
         Authorization: `Bearer ${jwt}`,
       },
     }).then(this._returnStatus);
+  }
   }
 }
 
