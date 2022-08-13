@@ -42,7 +42,8 @@ function App() {
         .validateToken(userToken)
         .then((userData) => {
           if (userData) {
-            setUserEmail(userData.email);
+            // console.log(userData)
+            setUserEmail(userData.data.email);
             setLoggedIn(true);
             history.push("/");
           }
@@ -96,11 +97,11 @@ function App() {
   }
 
   function handleSignIn(userData) {
-    console.log(userData);
+    // console.log(userData);
     auth
       .signIn(userData)
       .then((userReceivedData) => {
-        console.log(userReceivedData);
+        // console.log(userReceivedData);
         //В случае успешной авторизации
         localStorage.setItem("jwt", userReceivedData.token);
         setUserEmail(userData.email);
@@ -218,6 +219,7 @@ function App() {
           <Route path="/signup">
             <Header
               isLoggedIn={isLoggedIn}
+              userEmail={userEmail}
               linkPath={"/signin"}
               linkText="Войти"
             />
